@@ -23,7 +23,7 @@ public class Player extends GameObject{
 	}
 	
 	public void render(Graphics g){
-		if(id == ID.Player)g.setColor(Color.white);
+		if(id == ID.Player)g.setColor(Color.blue);
 		g.fillRect(x, y, 32, 32);
 	}
 	
