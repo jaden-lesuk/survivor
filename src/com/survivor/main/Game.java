@@ -31,18 +31,18 @@ public class Game extends Canvas implements Runnable{
 		handler = new Handler();
 	
 		this.addKeyListener(new KeyInput(handler));
-		
+//		this.addMouseListener(menu);
+		this.addMouseListener(new Menu(this, handler));
 		new Window(WIDTH, HEIGHT, "Survivor", this);
 		
 		hud = new HUD();
 		spawn= new Spawn(handler,hud);
-		menu = new Menu();
+		menu = new Menu(this, handler);
 		r = new Random();
 
 		if(gameState == STATE.Game){
 		handler.addObject(new Player(WIDTH/2-32 ,HEIGHT/2-32, ID.Player, handler));
 //    	for(int i = 0; i <= 5; i++)
-		
 		handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.BasicEnemy, handler));
 //		handler.addObject(new EnemyBoss((Game.WIDTH / 2)-48 ,-120, ID.EnemyBoss, handler));
 		}
