@@ -32,12 +32,15 @@ public class Game extends Canvas implements Runnable{
 
 		handler.addObject(new Player(WIDTH/2-32 ,HEIGHT/2-32, ID.Player, handler));
 //    	for(int i = 0; i <= 5; i++)
-		handler.addObject(new BasicEnemy(r.nextInt(WIDTH - 50) ,r.nextInt(HEIGHT -50), ID.BasicEnemy, handler));
+		
+		
+		handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.BasicEnemy, handler));
+//		handler.addObject(new EnemyBoss((Game.WIDTH / 2)-48 ,-120, ID.EnemyBoss, handler));
 		
 		
 	}
 
-	public synchronized void start(){
+	public synchronized void start(){ 
 		thread = new Thread(this);
 		thread.start();
 		running = true;
