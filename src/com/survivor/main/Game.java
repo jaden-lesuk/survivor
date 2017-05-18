@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
 
@@ -13,12 +14,54 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean running = false;
 	
+	private Random r;
+	private Handler handler;
+	private HUD hud;
+	private Spawn spawn;
+	private Menu menu;
+	private End end;
+	
+	public enum STATE{
+	  Menu,
+	  Help,
+      Game,
+      End
+	};
+	
+	public STATE gameState = STATE.Menu;
 	
 	public Game(){
+		handler = new Handler();
+		
+		hud = new HUD();
+		
+		this.addKeyListener(new KeyInput(handler));
+//		this.addMouseListener(menu);
+		this.addMouseListener(new Menu(this, handler, hud));
+		this.addMouseListener(new End(this, handler, hud));
+
 		new Window(WIDTH, HEIGHT, "Survivor", this);
+		
+		hud = new HUD();
+		spawn= new Spawn(handler,hud);
+		menu = new Menu(this, handler, hud);
+		end = new End(this, handler, hud);
+		r = new Random();
+
+		if(gameState == STATE.Game){
+		handler.addObject(new Player(WIDTH/2-32 ,HEIGHT/2-32, ID.Player, handler));
+//    	for(int i = 0; i <= 5; i++)
+		handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.BasicEnemy, handler));
+//		handler.addObject(new EnemyBoss((Game.WIDTH / 2)-48 ,-120, ID.EnemyBoss, handler));
+		}else if(gameState == STATE.Menu){
+//			for(int i = 0; i <= 10; i++){
+//				handler.addObject(new Particle(r.nextInt(WIDTH) ,r.nextInt(HEIGHT), ID.Particle, handler));
+//			}
+		}
+		
 	}
 
-	public synchronized void start(){
+	public synchronized void start(){ 
 		thread = new Thread(this);
 		thread.start();
 		running = true;
@@ -64,7 +107,23 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	private void tick(){
-		
+		handler.tick();
+		if(gameState == STATE.Game){
+			hud.tick();
+			spawn.tick();	
+			
+			if(HUD.HEALTH <=0){
+				HUD.HEALTH = 100;
+				gameState = STATE.End ;
+				handler.clearEnemiesx();
+				
+			}
+			
+		}else if(gameState == STATE.Menu){
+			menu.tick();
+		}else if(gameState == STATE.End){
+			end.tick();
+		}
 	}
 	
 	private void render(){
@@ -80,8 +139,30 @@ public class Game extends Canvas implements Runnable{
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		handler.render(g);
+		
+		if(gameState == STATE.Game){
+			hud.render(g);
+		}else if(gameState == STATE.Menu||gameState == STATE.Help){
+			menu.render(g);
+		}else if(gameState == STATE.End){
+			end.render(g);
+		}
+		
+		
 		g.dispose();
 		bs.show();
+	}
+	
+	public static float clamp(float var, float min, float max){
+		if (var >= max){
+			return var = max;
+		} else if(var <= min){
+			return var = min;
+		}else{
+			return var;
+		}
+				
 	}
 	
 	public static void main(String[] args){
