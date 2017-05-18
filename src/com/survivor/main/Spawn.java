@@ -33,11 +33,11 @@ public class Spawn {
 				handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.FastEnemy, handler));
 			}else if(hud.getLevel() == 7){
 				handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.FastEnemy, handler));
-			}else if(hud.getLevel() == 10){
-				handler.clearEnemies();
-				handler.addObject(new EnemyBoss((Game.WIDTH / 2)-48 ,-120, ID.EnemyBoss, handler));
+			}else if(hud.getLevel() == 12){
+			handler.clearEnemies();
+			handler.addObject(new EnemyBoss((Game.WIDTH / 2)-68 ,-150, ID.EnemyBoss, handler));
 
-			}
+		}
 		}
 	}
 }

@@ -11,11 +11,13 @@ import com.survivor.main.Game.STATE;
 public class Menu extends MouseAdapter {
 	private Game game;
 	private Handler handler;
+	private HUD hud;
 	private Random r = new Random();
 	
-	public Menu(Game game, Handler handler){
+	public Menu(Game game, Handler handler, HUD hud){
 		this.game = game;
 		this.handler = handler;
+		this.hud = hud;
 	}
 	
 	private boolean mouseOver(int mx, int my, int x, int y, int width, int height){
@@ -38,6 +40,14 @@ public class Menu extends MouseAdapter {
 				game.gameState = STATE.Game;
 				handler.addObject(new Player(Game.WIDTH/2-32 ,Game.HEIGHT/2-32, ID.Player, handler));
 				handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH -50) ,r.nextInt(Game.HEIGHT -50), ID.BasicEnemy, handler));
+
+				
+				
+				
+				
+//				if(object.getID()==ID.Particle){
+//					handler.removeObject(this);
+//				}
 			}
 		
 			
@@ -110,6 +120,17 @@ public class Menu extends MouseAdapter {
 			g.drawRect(200, 300, 200, 64);
 			g.drawString("BACK", 230, 350);	
 			
+		}else if(game.gameState == STATE.End){
+			Font clock = new Font("arial" , 1 , 50);
+			
+
+			g.setColor(Color.white);
+			g.drawString("Use W,A, S, D keys to", 65, 150);
+			g.drawString("dodge enemies", 150, 200);
+			
+
+			g.drawRect(200, 300, 200, 64);
+			g.drawString("BACK", 230, 350);	
 		}
 
 	}

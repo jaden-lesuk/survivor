@@ -1,11 +1,13 @@
 package com.survivor.main;
 
 import java.awt.Graphics;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Handler {
 	
-	LinkedList<GameObject> object = new LinkedList<GameObject>();
+	List<GameObject> object = new ArrayList<GameObject>();
 	
 	public void tick(){
 		for (int i = 0; i < object.size(); i++){
@@ -16,11 +18,11 @@ public class Handler {
 	}
 	
 	public void render(Graphics g){
-		for (int i = 0; i < object.size(); i++){
-			GameObject tempObject = object.get(i);
-			
-			tempObject.render(g);
-		}
+			for (int i = 0; i < object.size(); i++){
+				GameObject tempObject = object.get(i);
+				
+				tempObject.render(g);
+			}
 	}
 	
 	public void clearEnemies(){
@@ -30,6 +32,17 @@ public class Handler {
 			if(tempObject.getID() != ID.Player){
 				object.clear();
 				addObject(new Player((int)tempObject.getX(), (int)tempObject.getY(), ID.Player, this));
+			}
+		}
+	}
+	
+	public void clearEnemiesx(){
+		for (int i = 0; i < object.size(); i++){
+			GameObject tempObject = object.get(i);
+			
+			if(tempObject.getID() != ID.Player){
+				object.clear();
+	//			addObject(new Player((int)tempObject.getX(), (int)tempObject.getY(), ID.Player, this));
 			}
 		}
 	}
